@@ -1,8 +1,10 @@
 from graph import *
+from tkinter import*
 brushColor(220,220,220)
 penColor("white")
 rectangle(0,0,9999,250)
 c=canvas()
+c.pack
 brushColor("grey")
 c.create_oval(50,200,300,350,fill="grey")
 brushColor("white")
@@ -63,45 +65,97 @@ c.create_oval(120,380,130,390,fill='white')
 polygon([(260,410),(275,390),(300,370),(340,350),(346,354),(347,360),(320,390),(285,410),(265,415)])
 polygon([(95,340),(90,365),(105,360)])
 polygon([(120,340),(115,360),(130,365)])
+
+m = circle (400, 100, 50)
+mb1 = circle (400 + 20, 100 + 10, 20)
+mb2 = circle (400 - 20, 100 - 20, 20)
+mr = c.create_arc(400 - 40, 100 - 40, 400 + 40, 100 + 40, start = 180, exten = 90, style = ARC, outline = 'black', width = 2)
+r1 = 40
+dr = 1.015
+r = 50
+z = 20
+
+data = list()
+brushColor('white')
+for i in range (1, 15):
+    g = circle (50+i*20, 50, 20)
+    data.append(g)
+    h = circle (78+i*20, 78, 20)
+    data.append(h)
+
 def update():
-	if ((xCoord(a)<270)and(yCoord(a)<437)):
-		moveObjectBy(a,1,0)
-	elif (yCoord(a)<437):
-		moveObjectBy(a,0,1)
-	elif (xCoord(a)>260):
-		moveObjectBy(a, -1, 0)
-	elif (yCoord(a)>430):
-		moveObjectBy(a,0,-1)
-
-
-	if ((xCoord(b)<251)and(yCoord(b)<437)):
-		moveObjectBy(b,1,0)
-	elif (yCoord(b)<437):
-		moveObjectBy(b,0,1)
-	elif (xCoord(b)>240):
-		moveObjectBy(b, -1, 0)
-	elif (yCoord(b)>430):
-		moveObjectBy(b,0,-1)
-
-
-	if ((xCoord(d)<120)and(yCoord(d)<437)):
-		moveObjectBy(d,1,0)
-	elif (yCoord(d)<437):
-		moveObjectBy(d,0,1)
-	elif (xCoord(d)>110):
-		moveObjectBy(d, -1, 0)
-	elif (yCoord(d)>430):
-		moveObjectBy(d,0,-1)
-
-
-	if ((xCoord(f)<141)and(yCoord(f)<437)):
-		moveObjectBy(f,1,0)
-	elif (yCoord(f)<437):
-		moveObjectBy(f,0,1)
-	elif (xCoord(f)>130):
-		moveObjectBy(f, -1, 0)
-	elif (yCoord(f)>430):
-		moveObjectBy(f,0,-1)
+    global dr
+    global r
+    global m
+    global mb1
+    global mb2
+    global mr
+    global r1
+    global z
+    
+    if ((xCoord(a)<270)and(yCoord(a)<437)):
+    	moveObjectBy(a,1,0)
+    elif (yCoord(a)<437):
+    	moveObjectBy(a,0,1)
+    elif (xCoord(a)>260):
+    	moveObjectBy(a, -1, 0)
+    elif (yCoord(a)>430):
+    	moveObjectBy(a,0,-1)
+    	
+    	
+    if ((xCoord(b)<251)and(yCoord(b)<437)):
+    	moveObjectBy(b,1,0)
+    elif (yCoord(b)<437):
+    	moveObjectBy(b,0,1)
+    elif (xCoord(b)>240):
+    	moveObjectBy(b, -1, 0)
+    elif (yCoord(b)>430):
+    	moveObjectBy(b,0,-1)
+    	
+    if ((xCoord(d)<120)and(yCoord(d)<437)):
+    	moveObjectBy(d,1,0)
+    elif (yCoord(d)<437):
+    	moveObjectBy(d,0,1)
+    elif (xCoord(d)>110):
+    	moveObjectBy(d, -1, 0)
+    elif (yCoord(d)>430):
+    	moveObjectBy(d,0,-1)
+    	
+    if ((xCoord(f)<141)and(yCoord(f)<437)):
+    	moveObjectBy(f,1,0)
+    elif (yCoord(f)<437):
+    	moveObjectBy(f,0,1)
+    elif (xCoord(f)>130):
+    	moveObjectBy(f, -1, 0)
+    elif (yCoord(f)>430):
+    	moveObjectBy(f,0,-1)
+    r = r*dr
+    z = z*dr
+    r1 = r1*dr  	
+    deleteObject(m)
+    deleteObject(mb1)
+    deleteObject(mb2)
+    deleteObject(mr)
+    m = circle (400, 100, r)
+    mb1 = circle (400 + z, 100 + z, z)
+    mb2 = circle (400 - z, 100 - z, z)
+    mr = c.create_arc(400 - r1*dr, 100 - r1*dr, 400 + r1*dr, 100 + r1*dr, start = 180, exten = 90, style = ARC, outline = 'black', width = 2)
+    if r > 90:
+    	dr = 2 - dr
+    if r < 40:
+    	dr = 2 - dr
+    
+    global data
+    for i in range (1, 29):
+    	moveObjectBy (data[i-1], -5, 0)
+    	if xCoord(data[i-1]) < -40:
+    		deleteObject(data[i-1])
+    		if (i - 1)%2 == 0:
+    			data [i-1] = circle (550, 50, 20)
+    		else:
+    				data[i-1] = circle (550, 78, 20)
+    				
+			
 onTimer(update,50)
 
 run()
